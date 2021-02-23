@@ -10,8 +10,8 @@ const BackofficeCreateForm = ({ onSubmit, data, onChange, onClear }) => {
         <input
           name="title"
           type="text"
-          defaultValue={title}
-          onChange={(e) => onChange("title", e.target.value)}
+          value={title}
+          onChange={(e) => onChange(e.target.name, e.target.value)}
           required
         />
       </label>

@@ -33,7 +33,7 @@ const BackofficePageContainer = () => {
   const handleDelete = (id) => dispatch(deletePage(id));
 
   const handleChange = (field, value) => {
-    const dataUpdated = { ...data, [field]: value };
+    const dataUpdated = { [field]: value };
     setData(dataUpdated);
   };
 
