@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { createContent } from "../../actions/contents";
+import { createPage } from "../../actions/pages";
 import Editor from "../../components/Editor";
 
 const BackofficeCreateForm = () => {
-  const [contentData, setContentData] = useState({
+  const [pageData, setContentData] = useState({
     title: "",
-    message: "",
+    description: "",
   });
 
   const dispatch = useDispatch();
@@ -15,37 +15,37 @@ const BackofficeCreateForm = () => {
   const clear = () => {
     setContentData({
       title: "",
-      message: "",
+      description: "",
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createContent(contentData));
+    dispatch(createPage(pageData));
   };
 
   const handleChange = (field, value) => {
     console.log({ field, value });
-    setContentData({ ...contentData, [field]: value });
+    setContentData({ ...pageData, [field]: value });
   };
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-      <h6>Creating a content</h6>
+      <h6>Creating a page</h6>
       <label>
         Title
         <input
           name="title"
           type="text"
-          defaultValue={contentData.title}
+          defaultValue={pageData.title}
           onChange={(e) => handleChange("title", e.target.value)}
           required
         />
       </label>
 
       <Editor
-        value={contentData.message}
-        handleChange={(value) => handleChange("message", value)}
+        value={pageData.description}
+        handleChange={(value) => handleChange("description", value)}
       />
       <button type="submit">Submit</button>
       <button onClick={clear}>Clear</button>

@@ -1,36 +1,36 @@
-export const fetchContents = () => {
+export const fetchPages = () => {
   return {
-    type: "FETCH_CONTENTS",
+    type: "FETCH_PAGES",
     payload: {
       request: {
         method: "GET",
-        url: "contents",
+        url: "pages",
       },
     },
   };
 };
 
-export const createContent = (data) => {
+export const createPage = (data) => {
   return {
-    type: "CREATE_CONTENT",
+    type: "CREATE_PAGE",
     payload: {
       request: {
         method: "POST",
-        url: "contents",
+        url: "pages",
         data,
       },
     },
   };
 };
 
-export const deleteContent = (id) => {
+export const deletePage = (id) => {
   console.log(id);
   return {
-    type: "DELETE_CONTENT",
+    type: "DELETE_PAGE",
     payload: {
       request: {
         method: "DELETE",
-        url: `contents/${id}`,
+        url: `pages/${id}`,
       },
     },
   };

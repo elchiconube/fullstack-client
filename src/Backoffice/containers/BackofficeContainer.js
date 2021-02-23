@@ -1,42 +1,38 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import BackofficeCreateContainer from "./BackofficeCreateContainer";
-import { fetchContents, deleteContent } from "../../actions/contents";
+import { fetchPages, deletePage } from "../../actions/pages";
 import { useDispatch, useSelector } from "react-redux";
 
 const BackofficeContainer = () => {
-  const [module, setModule] = useState("");
   const dispatch = useDispatch();
-  const { contents, isLoading, error } = useSelector((state) => state.contents);
+  const { pages, isLoading, error } = useSelector((state) => state.pages);
 
   useEffect(() => {
-    dispatch(fetchContents());
+    dispatch(fetchPages());
     return () => {};
   }, []);
 
-  const handleDeleteContent = (id) => {
-    dispatch(deleteContent(id));
+  const handleDeletePage = (id) => {
+    dispatch(deletePage(id));
   };
 
   return (
     <div>
       <h1>Backoffice</h1>
-      <div>
-        <h2>Menu</h2>
-        <button onClick={() => setModule("create")}>Create</button>
-      </div>
+
       <ul>
-        {contents && contents.length && !isLoading ? (
-          contents.map(({ title, _id }) => (
+        {pages && pages.length && !isLoading ? (
+          pages.map(({ title, _id }) => (
             <li>
-              content: {title}
-              <button onClick={() => handleDeleteContent(_id)}>Delete</button>
+              page: {title}
+              <button onClick={() => handleDeletePage(_id)}>Delete</button>
             </li>
           ))
         ) : (
-          <h3>No posts</h3>
+          <h3>No pages</h3>
         )}
       </ul>
-      {module === "create" && <BackofficeCreateContainer />}
+      <BackofficeCreateContainer />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import contents from "./contents";
+import pages from "./pages";
 
-const reducers = combineReducers({ contents });
+const reducers = combineReducers({ pages });
 
 export default reducers;
