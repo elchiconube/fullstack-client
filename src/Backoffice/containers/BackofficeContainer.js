@@ -1,38 +1,13 @@
-import { useEffect } from "react";
-import BackofficeCreateContainer from "./BackofficeCreateContainer";
-import { fetchPages, deletePage } from "../../actions/pages";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+
+import BackofficePageContainer from "./BackofficePageContainer";
 
 const BackofficeContainer = () => {
-  const dispatch = useDispatch();
-  const { pages, isLoading, error } = useSelector((state) => state.pages);
-
-  useEffect(() => {
-    dispatch(fetchPages());
-    return () => {};
-  }, []);
-
-  const handleDeletePage = (id) => {
-    dispatch(deletePage(id));
-  };
-
+  const [type, setType] = useState("pages");
   return (
     <div>
       <h1>Backoffice</h1>
-
-      <ul>
-        {pages && pages.length && !isLoading ? (
-          pages.map(({ title, _id }) => (
-            <li>
-              page: {title}
-              <button onClick={() => handleDeletePage(_id)}>Delete</button>
-            </li>
-          ))
-        ) : (
-          <h3>No pages</h3>
-        )}
-      </ul>
-      <BackofficeCreateContainer />
+      {type === "pages" && <BackofficePageContainer />}
     </div>
   );
 };

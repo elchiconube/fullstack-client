@@ -1,10 +1,28 @@
 export const initialState = {
   isLoading: false,
   pages: [],
+  page: null,
 };
 
 const reducer = (state = initialState, { type, payload, ...action }) => {
   switch (type) {
+    case "FETCH_PAGE":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "FETCH_PAGE_SUCCESS":
+      return {
+        ...state,
+        page: payload.data,
+        isLoading: false,
+      };
+    case "FETCH_PAGE_FAIL":
+      return {
+        ...state,
+        page: null,
+        isLoading: false,
+      };
     case "FETCH_PAGES":
       return {
         ...state,
