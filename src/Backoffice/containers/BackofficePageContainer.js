@@ -13,28 +13,41 @@ const BackofficePageContainer = () => {
   const [data, setData] = useState({
     title: "",
     description: "",
+    components: [],
   });
+  const [description, setDescription] = useState("");
 
   const { pages, page, isLoading } = useSelector((state) => state.pages);
 
   useEffect(() => {
     dispatch(fetchPages());
-    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // page && setData(page);
+    page && setData(page);
   }, [page]);
 
   useEffect(() => {
     console.log(data);
   }, [data]);
 
-  const handleDelete = (id) => dispatch(deletePage(id));
+  useEffect(() => {
+    description && setData({ ...data, description });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [description]);
 
-  const handleChange = (field, value) => {
-    const dataUpdated = { [field]: value };
-    setData(dataUpdated);
+  const handleDeletePage = (id) => dispatch(deletePage(id));
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleChangeDescription = (value) => {
+    setDescription(value);
   };
 
   const handleSubmit = (e) => {
@@ -42,7 +55,36 @@ const BackofficePageContainer = () => {
     dispatch(createPage(data));
   };
 
-  const handleEdit = (id) => dispatch(fetchPage(id));
+  const handleEditPage = (id) => dispatch(fetchPage(id));
+
+  const handleOnAddSubpage = (id, title) => {
+    const subpages = data.components.find(({ type }) => type === "subpages");
+    console.log(subpages);
+    if (subpages) {
+      // subpages.list = [...subpages.list, { title, id } ]
+      // setData({
+      //   ...data,
+      //   components: [
+      //     ...data.components,
+      //     { type: "subpages", list: [{ title, id }] },
+      //   ],
+      // });
+    } else {
+      setData({
+        ...data,
+        components: [
+          ...data.components,
+          { type: "subpages", list: [{ title, id }] },
+        ],
+      });
+    }
+  };
+
+  const handleOnRemoveSubpage = (id) => {
+    const subpages = data.components.filter(({ type }) => type === "subpages");
+    console.log(subpages);
+    // setData({ ...data, subpages: subpages });
+  };
 
   return (
     <div>
@@ -51,19 +93,25 @@ const BackofficePageContainer = () => {
           pages.map(({ title, _id }) => (
             <li key={_id}>
               page: {title}
-              <button onClick={() => handleDelete(_id)}>Delete</button>
-              <button onClick={() => handleEdit(_id)}>Edit</button>
+              <button onClick={() => handleDeletePage(_id)}>Delete</button>
+              <button onClick={() => handleEditPage(_id)}>Edit</button>
             </li>
           ))
         ) : (
           <h3>No pages</h3>
         )}
       </ul>
-      <BackofficePageForm
-        data={data}
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-      />
+      {data && (
+        <BackofficePageForm
+          pages={pages}
+          onAddSubpage={handleOnAddSubpage}
+          onRemoveSubpage={handleOnRemoveSubpage}
+          data={data}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          onChangeDescription={handleChangeDescription}
+        />
+      )}
     </div>
   );
 };

@@ -1,66 +1,66 @@
 import Editor from "../../components/Editor";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import styled from "styled-components";
+import BackofficeAddRemoveContents from "../components/BackofficeAddRemoveContents";
 
-const BackofficeCreateForm = ({ onSubmit, data, onChange, onClear }) => {
-  const { title, description } = data;
+const StyledGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  grid-gap: 21px;
+`;
+const BackofficeCreateForm = ({
+  onSubmit,
+  data,
+  pages,
+  onChange,
+  onChangeDescription,
+  onAddSubpage,
+  onRemoveSubpage,
+}) => {
+  const { _id, title, description, components } = data;
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Need title"),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-    },
-    validationSchema: validationSchema,
-    async onSubmit({ title, description }, { setSubmitting }) {
-      await onSubmit({ title, description });
-    },
-  });
-
-  const {
-    handleSubmit,
-    isSubmitting,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    values,
-    dirty,
-  } = formik;
+  const subpages = components.find(({ type }) => type === "subpages");
 
   return (
-    <form onSubmit={handleSubmit} className={isSubmitting ? "loading" : null}>
-      <h3>Creating a page</h3>
-      <div>
-        <label>
-          Title
-          <input
-            disabled={isSubmitting}
-            name="title"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            placeholder="Type a title"
-            required
-            type="text"
-            value={values.title}
+    <form onSubmit={onSubmit}>
+      <h3>{_id ? "Editing" : "Creating"} a page</h3>
+      <StyledGrid>
+        <div>
+          <div>
+            <label>
+              Title
+              <input
+                name="title"
+                onChange={onChange}
+                placeholder="Type a title"
+                required
+                type="text"
+                defaultValue={title || ""}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Description
+              <Editor
+                name="description"
+                value={description}
+                onChange={onChangeDescription}
+              />
+            </label>
+          </div>
+          <BackofficeAddRemoveContents
+            attachments={subpages ? subpages.list : []}
+            availables={pages}
+            currentId={_id}
+            handleOnAddContent={onAddSubpage}
+            handleOnRemoveContent={onRemoveSubpage}
+            title="Subpages"
           />
-        </label>
-      </div>
-      <div>
-        <label>
-          Description
-          <Editor
-            value={description}
-            handleChange={(value) => onChange("description", value)}
-          />
-        </label>
-      </div>
-      <div>
-        <button type="submit">Submit</button>
-      </div>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </StyledGrid>
     </form>
   );
 };

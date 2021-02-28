@@ -1,15 +1,18 @@
+import React, { useRef } from "react";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 
-const Editor = ({ handleChange, value }) => {
-  const handleBlur = (event, editorContents) => {
-    handleChange(editorContents);
-  };
+const Editor = ({ onChange, value, name }) => {
+  const editorRef = useRef();
+
   return (
     <div style={{ position: "relative" }}>
       <SunEditor
+        ref={editorRef}
+        name={name}
+        id={name}
         setContents={value}
-        onBlur={handleBlur}
+        onBlur={(e, v) => onChange(v)}
         setOptions={{
           // mode: "inline",
           // display: "block",
