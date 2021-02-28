@@ -4,7 +4,7 @@ import BackofficeAddRemoveContents from "../components/BackofficeAddRemoveConten
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 100px;
   grid-gap: 21px;
 `;
 const BackofficeCreateForm = ({
@@ -58,7 +58,7 @@ const BackofficeCreateForm = ({
           />
         </div>
         <div>
-          <button type="submit">Submit</button>
+          <button type="submit">{_id ? "Update" : "Submit"}</button>
         </div>
       </StyledGrid>
     </form>

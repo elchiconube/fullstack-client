@@ -6,6 +6,7 @@ import {
   deletePage,
   fetchPage,
   fetchPages,
+  updatePage,
 } from "../../actions/pages";
 
 const BackofficePageContainer = () => {
@@ -52,7 +53,13 @@ const BackofficePageContainer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPage(data));
+    console.log(data);
+    if (data._id) {
+      dispatch(updatePage(data));
+    } else {
+      dispatch(createPage(data));
+    }
+    //
   };
 
   const handleEditPage = (id) => dispatch(fetchPage(id));

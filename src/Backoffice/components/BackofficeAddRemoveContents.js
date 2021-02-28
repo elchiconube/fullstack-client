@@ -28,12 +28,10 @@ const BackofficeAddRemoveContents = ({
         {show ? "Close" : "Add"} {title}
       </button>
       <ul>
-        {show && availables && availables.length
-          ? availables.map(({ title, _id }) => {
-              if (
-                currentId !== _id &&
-                attachments.some(({ id }) => id !== _id)
-              ) {
+        {show ? (
+          availables && availables.length ? (
+            availables.map(({ title, _id }) => {
+              if (currentId !== _id) {
                 return (
                   <li key={_id}>
                     {title}
@@ -46,10 +44,13 @@ const BackofficeAddRemoveContents = ({
                   </li>
                 );
               } else {
-                return <p>No contents to attach</p>;
+                return null;
               }
             })
-          : null}
+          ) : (
+            <p>No attachments availables</p>
+          )
+        ) : null}
       </ul>
       {!show && attachments && attachments.length ? (
         <div>

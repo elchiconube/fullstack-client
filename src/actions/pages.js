@@ -24,6 +24,20 @@ export const createPage = (data) => {
   };
 };
 
+export const updatePage = (data) => {
+  const { _id } = data;
+  return {
+    type: "UPDATE_PAGE",
+    payload: {
+      request: {
+        method: "PATCH",
+        url: `pages/${_id}`,
+        data,
+      },
+    },
+  };
+};
+
 export const deletePage = (id) => {
   return {
     type: "DELETE_PAGE",

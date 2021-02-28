@@ -6,6 +6,23 @@ export const initialState = {
 
 const reducer = (state = initialState, { type, payload, ...action }) => {
   switch (type) {
+    case "UPDATE_PAGE":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "UPDATE_PAGE_SUCCESS":
+      return {
+        ...state,
+        page: payload.data,
+        isLoading: false,
+      };
+    case "UPDATE_PAGE_FAIL":
+      return {
+        ...state,
+        page: null,
+        isLoading: false,
+      };
     case "FETCH_PAGE":
       return {
         ...state,
